@@ -447,7 +447,14 @@ jtabChord.prototype.setCustomChordArray = function(){
 };
 
 jtabChord.prototype.parseCustomChordArrayFromToken = function() {
-  notes = this.fullChordName.replace(/(\%|\[.+\])/g, '');
+  var forcedFirstFretRegex = /.*\{(\d)\}.*/g;
+  var forcedFirstFretMatch = forcedFirstFretRegex.exec(this.fullChordName);
+  var forcedFirstFret;
+  if (forcedFirstFretMatch && forcedFirstFretMatch[1] !== undefined) {
+    forcedFirstFret = forcedFirstFretMatch[1]
+  }
+  
+  notes = this.fullChordName.replace(/(\%|\[.+\]|\{\d\})/g, '');
   pairs = notes.split('.');
   if (pairs.length < 6){
     this.isValid = false;
@@ -489,11 +496,14 @@ jtabChord.prototype.parseCustomChordArrayFromToken = function() {
     return(n);
   });
 
-  //find all the fret positions which arent X or 0. I'm sure there's a better way to do this.
 
-  min = Math.min.apply( Math, fingeredFrets );
-
-  array.unshift(min-1);
+  if (forcedFirstFret) {
+    array.unshift(forcedFirstFret);
+  } else {
+    //find all the fret positions which arent X or 0. I'm sure there's a better way to do this.
+    min = Math.min.apply( Math, fingeredFrets );
+    array.unshift(min-1);
+  }
   return array;
 };
 
@@ -993,7 +1003,7 @@ jtab.render = function (element,notation_text) {
   canvas = Raphael(rndID, 80, Raphael.fn.total_height );
   canvas.tab_start();
 
-  var tokens = notation.split(/\s/);
+  var tokens = notation.split(/\s+/);
   for(var i = 0; i < tokens.length; i++) {
     canvas.render_token(tokens[i]);
   }
