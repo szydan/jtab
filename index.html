@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <title>jTab - Guitar Chord and Tab Library</title>
+    <!-- START: for jtab -->
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <script src="javascripts/jquery.js" type="text/javascript"></script>
+    <script src="javascripts/raphael.js" type="text/javascript"></script>
+    <script src="javascripts/jtab.js" type="text/javascript"></script>
+    <!-- END: for jtab -->
+  </head>
+  <body>
+
+<div>
+   <a href="original_index.htm">Index</a>&nbsp;&nbsp;
+   <a href="original_index.htm#notation">Notation</a>&nbsp;&nbsp;
+   <a href="changes/changes.html">Changes</a>&nbsp;&nbsp;
+</div>
+<div style="float:left; width: 300px;">
+<textarea id="user_notation" style="width: 100%; height: 100%; font-size: 12px;">
+TITLE Ritchie Valens - La Bamba TITLE
+DESCRIPTION  DESCRIPTION 
+
+%3/3.X/X.X/X.X/X.X/X.X/X[]{0} 
+%X/X.0/0.X/X.X/X.X/X.X/X[]{0}
+%X/X.2/2.X/X.X/X.X/X.X/X[]{0}
+
+NEW_LINE
+
+%X/X.3/3.X/X.X/X.X/X.X/X[Cshape]{0}
+%X/X.X/X.2/2.X/X.X/X.X/X[]{0}
+%X/X.X/X.0/0.X/X.X/X.X/X[openD]{0}
+%X/X.X/X.3/3.2/2.X/X.X/X[Fshape]{0}
+%X/X.X/X.X/X.2/2.1/1.X/x[]{0} 
+%X/X.X/X.X/X.X/X.0/0.0/0[]{0} 
+
+NEW_LINE
+
+%3/3.X/X.X/X.X/X.X/X.X/X[]{0} 
+%X/X.2/2.X/X.X/X.X/X.X/X[]{0}
+%X/X.X/X.0/0.X/X.X/X.X/X[openD]{0}
+%X/X.X/X.3/3.X/X.X/X.X/X[]{0}
+%X/X.X/X.3/3.X/X.X/X.X/X[]{0}
+%X/X.X/X.2/2.X/X.X/X.X/X[]{0}
+%X/X.X/X.0/0.X/X.X/X.X/X[openD]{0}
+
+NEW_LINE
+
+
+%X/X.3/3.X/X.X/X.X/X.X/X[Cshape]{0}
+%X/X.X/X.2/2.X/X.X/X.X/X[]{0}
+%X/X.X/X.0/0.X/X.X/X.X/X[openD]{0}
+%X/X.X/X.3/3.2/2.X/X.X/X[Fshape]{0}
+%X/X.X/X.X/X.2/2.1/1.X/x[]{0} 
+%X/X.X/X.X/X.X/X.0/0.0/0[]{0} 
+
+NEW_LINE
+
+%X/X.3/3.2/2.X/X.1/1.X/X[C]{0}
+%X/X.X/X.3/3.2/2.1/1.X/X[F]{0}
+%3/3.2/2.X/X.X/X.X/X.3/4[G]{0} 
+
+</textarea>
+</div>
+
+<div id="tab" style="float: left; width: 70%;"></div>
+
+<script type='text/javascript'>
+
+  function render(s) {
+    // split by NEW_LINE
+    var lines = s.split('NEW_LINE')
+     
+    $('#tab').empty();
+    for (var i = 0; i < lines.length; i++) {
+      const $el = $('<div></div>');
+      $('#tab').append($el);
+      jtab.render($el, lines[i]);
+    }
+  }
+
+  $('#user_notation').keyup(function(e){
+    var s = $(this).val();
+    render(s);
+  });
+
+  render($('#user_notation').val());
+  
+</script>
+
+  </body>
+</html>
